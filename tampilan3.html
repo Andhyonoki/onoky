@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kampus</title>
+    <link rel="stylesheet" href="gaya.css">
+    <link rel="stylesheet" href="3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="footer1.css">
+    <style>
+        #kampus1, #kampus2 {
+            display: none;
+            font-weight: 100;
+            font-size: 16px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #000000;
+            border-right: 1px solid #000000; 
+            border-top: 1px solid #ddd;
+            border-left: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .ruangan-list {
+            margin-top: 20px;
+        }
+
+        .ruangan-item {
+            margin-bottom: 20px;
+            border: 1px solid #000000;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .ruangan-item h2 {
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        
+
+        .ruangan-item p {
+            font-size: 16px;
+        }
+        .kampus-list {
+            margin-top: 20px;
+        }
+
+        .kampus-item {
+            margin-bottom: 20px;
+            border: 1px solid #000000;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .kampus-item h2 {
+            margin-bottom: 10px;
+        }
+
+        .deskripsi-kosong {
+            font-style: italic;
+            color: #aaa;
+        }
+    </style>
+    <script>
+        function toggleKampus() {
+            var pilihKampus = document.getElementById("pilih-kampus");
+            var selectedKampus = pilihKampus.value;
+            var kampus1 = document.getElementById("kampus1");
+            var kampus2 = document.getElementById("kampus2");
+
+            if (selectedKampus === "kampus1") {
+                kampus1.style.display = "block";
+                kampus2.style.display = "none";
+            } else if (selectedKampus === "kampus2") {
+                kampus1.style.display = "none";
+                kampus2.style.display = "block";
+            }
+        }
+
+        window.onload = function() {
+            toggleKampus();
+        };
+    </script>
+</head>
+<body>
+    <div class="content-wrapper">
+        <nav>
+            <div class="wrapper nav-container">
+                <div class="logo"><a href="#home">Informasi Kelas Mata Kuliah</a></div>
+                <div class="menu">
+                    <ul>
+                        <li><a href="tampilan1.html">Beranda</a></li>
+                        <li><a href="tampilan2.html">Daftar Mahasiswa</a></li>
+                        <li><a href="tampilan3.html">Info Kelas</a></li>
+                        <li><a href="logout.php" class="tbl-biru">Keluar</a></li>
+                    </ul>
+                    <div class="toggle" onclick="toggleMenu()" aria-label="Toggle menu"></div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="kelas-select">
+        <label for="pilih-kampus"></label>
+        <select id="pilih-kampus" onchange="toggleKampus()">
+            <option value="kampus1">Kampus 1</option>
+            <option value="kampus2">Kampus 2</option>
+        </select>
+
+    </div>
+    <div class="wrapper">
+        <section id="kampus1">
+            <h1>Kampus 1</h1>
+            <div class="ruangan-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hari</th>
+                            <th>201</th>
+                            <th>202</th>
+                            <th>203</th>    
+                            <th>204</th>
+                            <th>205</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Senin</td>
+                            <td><a href="">Lihat Kelas</a></td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                        </tr>
+                        <tr>
+                            <td>Selasa</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                        </tr>
+                        <tr>
+                            <td>Rabu</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                        </tr>
+                        <tr>
+                            <td>Kamis</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                        </tr>
+                        <tr>
+                            <td>Jumat</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                            <td>Lihat Kelas</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="wrapper">
+            <section id="kampus2">
+                <h1>Lantai 1</h1>
+                <div class="ruangan-list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Hari</th>
+                                <th>101</th>
+                                <th>102</th>
+                                <th>103</th>    
+                                <th>104</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Senin</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                            </tr>
+                            <tr>
+                                <td>Selasa</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                            </tr>
+                            <tr>
+                                <td>Rabu</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                            </tr>
+                            <tr>
+                                <td>Kamis</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                            </tr>
+                            <tr>
+                                <td>Jumat</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h1>lantai 2</h1>
+                <div class="ruangan-list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Hari</th>
+                                <th>202</th>
+                                <th>203</th>
+                                <th>205</th>    
+                                <th>206</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Senin</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                            </tr>
+                            <tr>
+                                <td>Selasa</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                            </tr>
+                            <tr>
+                                <td>Rabu</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                            </tr>
+                            <tr>
+                                <td>Kamis</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                            </tr>
+                            <tr>
+                                <td>Jumat</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                                <td>Lihat Kelas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+    </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-col">
+                <h3>
+                    Menu
+                    <div class="underline"><span></span></div>
+                </h3>
+                <ul>
+                    <li><a href="#">Beranda</a></li>
+                    <li><a href="#">Daftar Mahasiswa</a></li>
+                    <li><a href="#">Info Kelas</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <div class="ikon-sosial">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#"><i class="fa-brands fa-google-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
