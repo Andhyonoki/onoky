@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Data</title>
+    <link rel="stylesheet" type="text/css" href="maintampilan2.css">
+    <link rel="stylesheet" href="3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="footer1.css">
+    <link rel="stylesheet" href="form1.css">
+    <script>
+        window.onload = function() {
+            const editData = JSON.parse(localStorage.getItem('editData'));
+            if (editData) {
+                document.getElementById('id').value = editData.id;
+                document.getElementById('hari').value = editData.hari;
+                document.getElementById('nama_ruangan').value = editData.nama_ruangan;
+                document.getElementById('kelas').value = editData.kelas;
+                document.getElementById('mata_kuliah').value = editData.mata_kuliah;
+                document.getElementById('dosen').value = editData.dosen;
+                document.getElementById('jam_mulai').value = editData.jam_mulai;
+                document.getElementById('jam_selesai').value = editData.jam_selesai;
+            } else {
+                console.error("editData not found in localStorage");
+            }
+        };
+
+        function saveData() {
+            const data = {
+                id: document.getElementById('id').value,
+                hari: document.getElementById('hari').value,
+                nama_ruangan: document.getElementById('nama_ruangan').value,
+                kelas: document.getElementById('kelas').value,
+                mata_kuliah: document.getElementById('mata_kuliah').value,
+                dosen: document.getElementById('dosen').value,
+                jam_mulai: document.getElementById('jam_mulai').value,
+                jam_selesai: document.getElementById('jam_selesai').value
+            };
+
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        alert('Data berhasil disimpan!');
+                        window.location.href = 'dosen3.html'; // Redirect to main page
+                    } else {
+                        console.error("Error saving data:", this.responseText);
+                        alert("Terjadi kesalahan saat menyimpan data. Silakan coba lagi.");
+                    }
+                }
+            };
+            xhttp.open("POST", "edit.php", true);
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.send(JSON.stringify(data));
+        }
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="wrapper nav-container">
+            <div class="logo"><a href="#home">Informasi Kelas Mata Kuliah</a></div>
+            <div class="menu">
+                <ul>
+                    <li><a href="dosen1.php">Beranda</a></li>
+                    <li><a href="dosen2.html">Daftar Mahasiswa</a></li>
+                    <li><a href="dosen3.html">Info Kelas</a></li>
+                    <li><a href="logout.php" class="tbl-biru">Keluar</a></li>
+                </ul>
+                <div class="toggle" onclick="toggleMenu()" aria-label="Toggle menu"></div>
+            </div>
+        </div>
+    </nav>
+    <div class="edit">
+        <legend>Edit data</legend>
+        <form onsubmit="saveData(); return false;">
+            <input type="hidden" id="id" name="id">
+            <label for="hari">Hari:</label>
+            <input type="text" id="hari" name="hari" required><br><br>
+            <label for="nama_ruangan">Nama Ruangan:</label>
+            <input type="text" id="nama_ruangan" name="nama_ruangan" required><br><br>
+            <label for="kelas">Kelas:</label>
+            <input type="text" id="kelas" name="kelas" required><br><br>
+            <label for="mata_kuliah">Mata Kuliah:</label>
+            <input type="text" id="mata_kuliah" name="mata_kuliah" required><br><br>
+            <label for="dosen">Dosen:</label>
+            <input type="text" id="dosen" name="dosen" required><br><br>
+            <label for="jam_mulai">Jam Mulai:</label>
+            <input type="time" id="jam_mulai" name="jam_mulai" required><br><br>
+            <label for="jam_selesai">Jam Selesai:</label>
+            <input type="time" id="jam_selesai" name="jam_selesai" required><br><br>
+            <input type="submit" value="Simpan">
+        </form>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-col">
+                <h3>Menu</h3>
+                <ul>
+                    <li><a href="admin1.php">Beranda</a></li>
+                    <li><a href="admin2.html">Daftar Mahasiswa</a></li>
+                    <li><a href="admin3.html">Info Kelas</a></li>
+                    <li><a href="register1.html">Daftar Akun</a></li>
+                    <li><a href="logout.php" class="tbl-biru">Keluar</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <div class="ikon-sosial">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-google-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

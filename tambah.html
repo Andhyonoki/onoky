@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Mahasiswa</title>
+    <link rel="stylesheet" type="text/css" href="maintampilan2.css">
+    <link rel="stylesheet" href="3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="footer1.css">
+    <link rel="stylesheet" href="form1.css">
+</head>
+<body>
+    <div class="content-wrapper">
+        <nav>
+            <div class="wrapper nav-container">
+                <div class="logo"><a href="#home">Informasi Kelas Mata Kuliah</a></div>
+                <div class="menu">
+                    <ul>
+                        <li><a href="tampilan1.html">Beranda</a></li>
+                        <li><a href="daftar_mahasiswa.html">Daftar Mahasiswa</a></li>
+                        <li><a href="tampilan3.html">Info Kelas</a></li>
+                        <li><a href="logout.php" class="tbl-biru">Keluar</a></li>
+                    </ul>
+                    <div class="toggle" onclick="toggleMenu()" aria-label="Toggle menu"></div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="edit">
+        <legend>Tambah mahasiswa</legend>
+        <form action="sumbitadmin.php " method="POST">
+            <label for="kelas">Kelas:</label>
+            <input type="text" id="kelas" name="kelas" required>
+
+            <label for="nomor">Nomor Absen:</label>
+            <input type="number" id="nomor" name="nomor" required>
+
+            <label for="nim">NIM:</label>
+            <input type="text" id="nim" name="nim" required>
+
+            <label for="nama">Nama:</label>
+            <input type="text" id="nama" name="nama" required>
+
+            <button type="submit">Tambah Mahasiswa</button>
+        </form>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-col">
+                <h3>
+                    Menu
+                    <div class="underline"><span></span></div>
+                </h3>
+                <ul>
+                    <li><a href="#">Beranda</a></li>
+                    <li><a href="#">Daftar Mahasiswa</a></li>
+                    <li><a href="#">Info Kelas</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <div class="ikon-sosial">
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#"><i class="fa-brands fa-google-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

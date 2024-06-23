@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kampus</title>
+    <link rel="stylesheet" href="gaya.css">
+    <link rel="stylesheet" href="3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="footer1.css">
+    <script>
+        // Toggle display for selected campus
+        function toggleKampus() {
+            const pilihKampus = document.getElementById("pilih-kampus");
+            const selectedKampus = pilihKampus.value;
+            const kampus1 = document.getElementById("kampus1");
+            const kampus2 = document.getElementById("kampus2");
+
+            if (selectedKampus === "kampus1") {
+                kampus1.style.display = "block";
+                kampus2.style.display = "none";
+                loadData("kampus1");
+            } else if (selectedKampus === "kampus2") {
+                kampus1.style.display = "none";
+                kampus2.style.display = "block";
+                loadData("kampus2");
+            }
+        }
+
+        // Load data from the server
+        function loadData(kampus) {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    const data = JSON.parse(this.responseText);
+                    const tableBody = document.getElementById(`table-body${kampus === 'kampus1' ? '1' : '2'}`);
+                    tableBody.innerHTML = "";
+
+                    data.forEach(row => {
+                        const tr = document.createElement("tr");
+                        tr.innerHTML = `
+                            <td>${row.hari}</td>
+                            <td>${row.nama_ruangan}</td>
+                            <td>${row.kelas}</td>
+                            <td>${row.mata_kuliah}</td>
+                            <td>${row.dosen}</td>
+                            <td>${row.jam_mulai}</td>
+                            <td>${row.jam_selesai}</td>
+                            <td class='aksi-buttons'>
+                                <button onclick='editRow(${row.id})'>Edit</button>
+                            </td>
+                        `;
+                        tr.setAttribute('data-id', row.id);
+
+                        tableBody.appendChild(tr);
+                    });
+                } else {
+                    console.error('Failed to load data.');
+                }
+            }
+        };
+        
+        xhttp.open("GET", `dosen3.php?kampus=${kampus}`, true);
+        xhttp.send();
+    }
+
+    // Function to edit row in the table
+    function editRow(id) {
+        const row = document.querySelector(`tr[data-id='${id}']`);
+        if (!row) return;
+
+        // Get data from the selected row
+        const hari = row.cells[0].innerText.trim();
+        const nama_ruangan = row.cells[1].innerText.trim();
+        const kelas = row.cells[2].innerText.trim();
+        const mata_kuliah = row.cells[3].innerText.trim();
+        const dosen = row.cells[4].innerText.trim();
+        const jam_mulai = row.cells[5].innerText.trim();
+        const jam_selesai = row.cells[6].innerText.trim();
+
+        // Store data in localStorage
+        const data = {
+            id: id,
+            hari: hari,
+            nama_ruangan: nama_ruangan,
+            kelas: kelas,
+            mata_kuliah: mata_kuliah,
+            dosen: dosen,
+            jam_mulai: jam_mulai,
+            jam_selesai: jam_selesai
+        };
+        localStorage.setItem('editData', JSON.stringify(data));
+
+        // Redirect to edit.html
+        window.location.href = 'edit.html';
+    }
+
+    // Ensure the page is fully loaded before executing functions
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleKampus(); // Initial load of data
+    });
+
+
+
+        window.onload = function() {
+            toggleKampus();
+        };
+    </script>
+</head>
+<body>
+    <div class="content-wrapper">
+        <nav>
+            <div class="wrapper nav-container">
+                <div class="logo"><a href="#home">Informasi Kelas Mata Kuliah</a></div>
+                <div class="menu">
+                    <ul>
+                        <li><a href="dosen1.php">Beranda</a></li>
+                        <li><a href="dosen2.html">Daftar Mahasiswa</a></li>
+                        <li><a href="dosen3.html">Info Kelas</a></li>
+                        <li><a href="logout.php" class="tbl-biru">Keluar</a></li>
+                    </ul>
+                    <div class="toggle" onclick="toggleMenu()" aria-label="Toggle menu"></div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="kelas-select">
+        <label for="pilih-kampus">Pilih Kampus:</label>
+        <select id="pilih-kampus" onchange="toggleKampus()">
+            <option value="kampus1">Kampus 1</option>
+            <option value="kampus2">Kampus 2</option>
+        </select>
+    </div>
+    <div class="wrapper">
+        <section id="kampus1">
+            <h1>Kampus 1</h1>
+            <div class="ruangan-list">
+                <table>
+                    <thead>
+                        <tr>
+                            
+                            <th>Hari</th>
+                            <th>Nama Ruangan</th>
+                            <th>Kelas</th>
+                            <th>Mata Kuliah</th>
+                            <th>Dosen</th>
+                            <th>Jam Mulai</th>
+                            <th>Jam Selesai</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body1">
+                        <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section id="kampus2">
+            <h1>Kampus 2</h1>
+            <div class="ruangan-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hari</th>
+                            <th>Nama Ruangan</th>
+                            <th>Kelas</th>
+                            <th>Mata Kuliah</th>
+                            <th>Dosen</th>
+                            <th>Jam Mulai</th>
+                            <th>Jam Selesai</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body2">
+                        <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-col">
+                <h3>
+                    Menu
+                    <div class="underline"><span></span></div>
+                </h3>
+                <ul>
+                    <li><a href="dosen1.php">Beranda</a></li>
+                    <li><a href="dosen2.html">Daftar Mahasiswa</a></li>
+                    <li><a href="dosen.html">Info Kelas</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <div class="ikon-sosial">
+                    <a href="https://www.facebook.com/ith.parepare?mibextid=ZbWKwL"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/ith.campus?igsh=Z3JucWdsOGtrd3A4"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://youtube.com/@ith_idn?si=Ky5JKVlLYWLw4z-V"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://ith.ac.id/"><i class="fa-brands fa-google-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

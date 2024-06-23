@@ -1,0 +1,83 @@
+form {
+    display: block;
+    max-width: 60%;
+    margin: 2rem auto;
+    box-sizing: border-box;
+}
+
+fieldset {
+    min-width: 50%;
+    background-color: #fff; /* Menambahkan warna latar belakang */
+    border-radius: 20px; /* Menambahkan sudut lengkung */
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Menambahkan bayangan */
+}
+.edit {
+    flex-grow: 1; /* Make content wrapper grow to fill available space */
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    padding: 20px;
+    width: 90%;
+    max-width: 700px;
+    margin: auto;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+legend {
+    text-align: center;
+    font-weight: 700;
+    font-size: 18pt;
+}
+
+input, select, textarea {
+    display: block;
+    height: 1.8rem;
+    width: 90%;
+    margin: 0.5rem 0;
+    border: none;
+    border-radius: 15px;
+    background-color: #f8f6ff;
+    outline-color: #7ca196;
+    padding: 0.5rem 1rem;
+}
+
+
+
+textarea {
+    min-height: 4rem !important;
+}
+
+button {
+    height: 40px;
+    min-width: 10rem;
+    padding: 0 1rem;
+    text-align: center;
+    margin-right: 1rem;
+    border-radius: 10px;
+    border: solid 2px #fff;
+    background-color: #6c7ae0;
+    color: #fff;
+    font-weight: 600;
+}
+
+button:hover {
+    background-color: #5A56C6;
+}
+
+.form-button {
+    background: #f4f6f8;
+    border-radius: 50rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    width: 150px;
+    color: #fff;
+    border: none;
+    outline: none;
+}
+
+.form-button:hover {
+    background: #ffc107;
+}

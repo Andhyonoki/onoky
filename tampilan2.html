@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Mahasiswa</title>
+    <link rel="stylesheet" type="text/css" href="maintampilan2.css">
+    <link rel="stylesheet" href="3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="footer1.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .class-name {
+           
+            font-size: 36px;
+            margin-bottom: 10px;
+
+        }
+    </style>
+    <script>
+        function toggleMenu() {
+            var menu = document.querySelector('.menu ul');
+            menu.classList.toggle('aktif');
+        }
+
+        function tampilkanDetail() {
+            var detail = document.getElementById("detail");
+            detail.style.display = "block";
+            var tautan = document.getElementById("pelajari-lebih-lanjut");
+            tautan.style.display = "none";
+        }
+
+        function toggleKelas() {
+            var kelas = document.getElementById("pilih-kelas").value;
+            console.log("Kelas yang dipilih: " + kelas);
+            
+            loadKelas(kelas); // Panggil fungsi untuk memuat data kelas
+        }
+
+        function loadKelas(kelas) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var data = JSON.parse(this.responseText);
+                    console.log(data); // Tambahkan logging untuk memeriksa data yang dikembalikan
+                    displayMahasiswa(data, kelas);
+                } else if (this.readyState == 4) {
+                    console.error("Gagal memuat data: " + this.status);
+                }
+            };
+            // Buat URL permintaan dengan menyertakan parameter 'kelas'
+            var url = "kelas.php?kelas=" + encodeURIComponent(kelas);
+            xhr.open("GET", url, true);
+            xhr.send();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            toggleKelas(); 
+        });
+
+        function displayMahasiswa(data, kelas) {
+            var tableRows = "";
+            tableRows += '<tr><th>No Absen</th><th>Nim</th><th>Nama</th></tr>';
+            for (var i = 0; i < data.length; i++) {
+                tableRows += "<tr><td>" + (i + 1) + "</td><td>" + data[i].nim + "</td><td>" + data[i].nama + "</td></tr>";
+            }
+            document.getElementById("class-name").innerText = "Kelas: " + kelas;
+            document.getElementById("data-table").innerHTML = tableRows; // Perbarui elemen tbody dengan data baru
+        }
+    </script>
+</head>
+<body>
+    <div class="content-wrapper">
+        <nav>
+            <div class="wrapper nav-container">
+                <div class="logo"><a href="#home">Informasi Kelas Mata Kuliah</a></div>
+                <div class="menu">
+                    <ul>
+                        <li><a href="tampilan1.php">Beranda</a></li>
+                        <li><a href="tampilan2.html">Daftar Mahasiswa</a></li>
+                        <li><a href="tampilan3.html">Info Kelas</a></li>
+                        <li><a href="logout.php" class="tbl-biru">Keluar</a></li>
+                    </ul>
+                    <div class="toggle" onclick="toggleMenu()" aria-label="Toggle menu"></div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="kelas-select">
+        <label for="pilih-kelas">Pilih Kelas:</label>
+        <select id="pilih-kelas" onchange="toggleKelas()">
+            <option value="IK22_A">IK22_A</option>
+            <option value="IK22_B">IK22_B</option>
+            <option value="IK22_C">IK22_C</option>
+            <option value="IK22_D">IK22_D</option>
+        </select>
+    </div>
+    <div class="wrapper">
+        <div id="class-name" class="class-name"></div>
+        <table>
+            <tbody id="data-table"></tbody>
+        </table>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-col">
+                <h3>
+                    Menu
+                    <div class="underline"><span></span></div>
+                </h3>
+                <ul>
+                    <li><a href="#">Beranda</a></li>
+                    <li><a href="#">Daftar Mahasiswa</a></li>
+                    <li><a href="#">Info Kelas</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <div class="ikon-sosial">
+                    <a href="https://www.facebook.com/ith.parepare?mibextid=ZbWKwL"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/ith.campus?igsh=Z3JucWdsOGtrd3A4"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://youtube.com/@ith_idn?si=Ky5JKVlLYWLw4z-V"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://ith.ac.id/"><i class="fa-brands fa-google-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
