@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Mahasiswa</title>
+    <link rel="stylesheet" type="text/css" href="maintampilan2.css">
+    <link rel="stylesheet" href="3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="footer1.css">
+    <link rel="stylesheet" href="form1.css">
+</head>
+<body>
+    <nav>
+        <div class="wrapper nav-container">
+            <div class="logo"><a href="#home">Informasi Kelas Mata Kuliah</a></div>
+            <div class="menu">
+                <ul>
+                    <li><a href="dosen1.php">Beranda</a></li>
+                    <li><a href="dosen2.html">Daftar Mahasiswa</a></li>
+                    <li><a href="dosen3.html">Info Kelas</a></li>
+                    <li><a href="logout.php" class="tbl-biru">Keluar</a></li>
+                </ul>
+                <div class="toggle" onclick="toggleMenu()" aria-label="Toggle menu"></div>
+            </div>
+        </div>
+    </nav>
+    <div class="edit">
+        <legend>Edit Data Mahasiswa</legend>
+        <form id="edit-form" onsubmit="submitForm(event)">
+            <input type="hidden" id="id" name="id">
+            
+            <label for="kelas">Kelas:</label>
+            <input type="text" id="kelas" name="kelas" required>
+            
+            <label for="nomor">Nomor:</label>
+            <input type="text" id="nomor" name="nomor" required>
+            
+            <label for="nim">NIM:</label>
+            <input type="text" id="nim" name="nim" readonly>
+            
+            <label for="nama">Nama:</label>
+            <input type="text" id="nama" name="nama" required>
+            
+            <button type="submit">Simpan Perubahan</button>
+        </form>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-col">
+                <h3>Menu</h3>
+                <ul>
+                    <li><a href="dosen1.php">Beranda</a></li>
+                    <li><a href="dosen2.html">Daftar Mahasiswa</a></li>
+                    <li><a href="dosen3.html">Info Kelas</a></li>
+                    
+                </ul>
+            </div>
+            <div class="footer-col">
+                <div class="ikon-sosial">
+                    <a href="https://www.facebook.com/ith.parepare?mibextid=ZbWKwL"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/ith.campus?igsh=Z3JucWdsOGtrd3A4"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://youtube.com/@ith_idn?si=Ky5JKVlLYWLw4z-V"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://ith.ac.id/"><i class="fa-brands fa-google-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function() {
+            var id = getParameterByName('id');
+            if (id) {
+                fetchMahasiswa(id);
+            } else {
+                alert('ID mahasiswa tidak valid atau tidak tersedia.');
+                // Atau arahkan pengguna ke halaman lain jika tidak ada ID yang valid
+                window.location.href = 'halaman-lain.html';
+            }
+        });
+
+        function fetchMahasiswa(id) {
+            $.ajax({
+                url: 'getmahasiswa.php',
+                type: 'GET',
+                data: { id: id },
+                success: function(response) {
+                    $('#id').val(response.id);
+                    $('#kelas').val(response.kelas);
+                    $('#nomor').val(response.nomor);
+                    $('#nim').val(response.nim);
+                    $('#nama').val(response.nama);
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error:', status, error);
+                    alert('Gagal mengambil data mahasiswa: Terjadi kesalahan AJAX.');
+                }
+            });
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+            var formData = $('#edit-form').serialize();
+            $.ajax({
+                url: 'edit2.php',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    alert('Data berhasil diperbarui');
+                    window.location.href = 'admin2.html'; // Ganti dengan halaman setelah berhasil disimpan
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error:', status, error);
+                    alert('Gagal memperbarui data');
+                }
+            });
+        }
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+    </script>
+</body>
+</html>

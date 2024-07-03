@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kampus</title>
+    <link rel="stylesheet" href="gaya.css">
+    <link rel="stylesheet" href="3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="footer1.css">
+    <style>
+        #kampus1, #kampus2 {
+            display: none;
+            font-weight: 100;
+            font-size: 16px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #000000;
+            border-right: 1px solid #000000; 
+            border-top: 1px solid #ddd;
+            border-left: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .ruangan-list {
+            margin-top: 20px;
+        }
+
+        .ruangan-item {
+            margin-bottom: 20px;
+            border: 1px solid #000000;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .ruangan-item h2 {
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        
+        .ruangan-item p {
+            font-size: 16px;
+        }
+        .kampus-list {
+            margin-top: 20px;
+        }
+
+        .kampus-item {
+            margin-bottom: 20px;
+            border: 1px solid #000000;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .kampus-item h2 {
+            margin-bottom: 10px;
+        }
+
+        .deskripsi-kosong {
+            font-style: italic;
+            color: #aaa;
+        }
+        #tambah_roster {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #0088ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 120px;
+        }
+
+        #tambah_roster:hover {
+            background-color: #0088ff;
+        }
+    </style>
+    <script>
+function toggleKampus() {
+    var pilihKampus = document.getElementById("pilih-kampus");
+    var selectedKampus = pilihKampus.value;
+    var kampus1 = document.getElementById("kampus1");
+    var kampus2 = document.getElementById("kampus2");
+
+    kampus1.style.display = (selectedKampus === "kampus1") ? "block" : "none";
+    kampus2.style.display = (selectedKampus === "kampus2") ? "block" : "none";
+
+    if (selectedKampus === "kampus1" || selectedKampus === "kampus2") {
+        loadData(selectedKampus);
+    }
+}
+
+function loadData(kampus) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                const data = JSON.parse(this.responseText);
+                const tableBody = document.getElementById(`table-body${kampus === 'kampus1' ? '1' : '2'}`);
+                tableBody.innerHTML = "";
+
+                data.forEach(row => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${row.hari}</td>
+                        <td>${row.nama_ruangan}</td>
+                        <td>${row.kelas}</td>
+                        <td>${row.mata_kuliah}</td>
+                        <td>${row.dosen}</td>
+                        <td>${row.jam_mulai}</td>
+                        <td>${row.jam_selesai}</td>
+                        <td class='aksi-buttons'>
+                            <button onclick='editRow(${row.id})'>Edit</button>
+                            <button onclick='deleteData(${row.id})'>Delete</button>
+                        </td>
+                    `;
+                    tr.setAttribute('data-id', row.id);
+
+                    tableBody.appendChild(tr);
+                });
+            } else {
+                console.error('Gagal memuat data.');
+            }
+        }
+    };
+    
+    xhttp.open("GET", `tampilan3.php?kampus=${kampus}`, true);
+    xhttp.send();
+}
+
+function editRow(id) {
+    const row = document.querySelector(`tr[data-id='${id}']`);
+    if (!row) return;
+
+    // Simpan data dalam localStorage
+    const data = {
+        id: id,
+        hari: row.cells[0].innerText.trim(),
+        nama_ruangan: row.cells[1].innerText.trim(),
+        kelas: row.cells[2].innerText.trim(),
+        mata_kuliah: row.cells[3].innerText.trim(),
+        dosen: row.cells[4].innerText.trim(),
+        jam_mulai: row.cells[5].innerText.trim(),
+        jam_selesai: row.cells[6].innerText.trim()
+    };
+    localStorage.setItem('editData', JSON.stringify(data));
+
+    // Alihkan ke edit.html
+    window.location.href = 'editadmin.html';
+}
+
+function deleteData(id) {
+    if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if (this.responseText.trim() === "Success") {
+                    alert("Data berhasil dihapus.");
+                    toggleKampus(); // Muat ulang data atau lakukan tindakan yang diperlukan
+                } else {
+                    alert("Terjadi kesalahan saat menghapus data: " + this.responseText);
+                }
+            }
+        };
+        xhttp.open("GET", `deletroster.php?id=${id}`, true);
+        xhttp.send();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    toggleKampus(); // Muat data awal
+});
+
+function tambahRoster() {
+    window.location.href = 'tambahroster.html';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var tambahRosterButton = document.getElementById('tambah_roster');
+    tambahRosterButton.addEventListener('click', tambahRoster);
+});
+
+window.onload = function() {
+    toggleKampus();
+};
+
+    </script>
+</head>
+<body>
+    <div class="content-wrapper">
+        <nav>
+            <div class="wrapper nav-container">
+                <div class="logo"><a href="#home">Informasi Kelas Mata Kuliah</a></div>
+                <div class="menu">
+                    <ul>
+                        <li><a href="admin1.php">Beranda</a></li>
+                        <li><a href="admin2.html">Daftar Mahasiswa</a></li>
+                        <li><a href="admin3.html">Info Kelas</a></li>
+                        <li><a href="register1.html">Daftar Akun</a></li>
+                        <li><a href="logout.php" class="tbl-biru">Keluar</a></li>
+                    </ul>
+                    <div class="toggle" onclick="toggleMenu()" aria-label="Toggle menu"></div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="kelas-select">
+        <label for="pilih-kampus">Pilih Kampus:</label>
+        <select id="pilih-kampus" onchange="toggleKampus()">
+            <option value="kampus1">Kampus 1</option>
+            <option value="kampus2">Kampus 2</option>
+        </select>
+    </div>
+    <div id="table-container">
+        <button type="button" id="tambah_roster"><i class="fa-solid fa-user-plus"></i>Tambah roster</button>
+        <div class="wrapper">
+            <div id="class-name" class="class-name"></div>
+            <table>
+                <tbody id="data-table"></tbody>
+            </table>
+        </div>
+    </div>
+   
+    <div class="wrapper">
+        <section id="kampus1">
+            <h2>Kampus 1</h2>
+            <div class="ruangan-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hari</th>
+                            <th>Nama Ruangan</th>
+                            <th>Kelas</th>
+                            <th>Mata Kuliah</th>
+                            <th>Dosen</th>
+                            <th>Jam Mulai</th>
+                            <th>Jam Selesai</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body1">
+                        <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section id="kampus2">
+            <h2>Kampus 2</h2>
+            <div class="ruangan-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hari</th>
+                            <th>Nama Ruangan</th>
+                            <th>Kelas</th>
+                            <th>Mata Kuliah</th>
+                            <th>Dosen</th>
+                            <th>Jam Mulai</th>
+                            <th>Jam Selesai</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body2">
+                        <!-- Data akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="footer-col">
+                <h3>
+                    Menu
+                    <div class="underline"><span></span></div>
+                </h3>
+                <ul>
+                        <li><a href="admin1.php">Beranda</a></li>
+                        <li><a href="admin2.html">Daftar Mahasiswa</a></li>
+                        <li><a href="admin3.html">Info Kelas</a></li>
+                        <li><a href="register1.html">Daftar Akun</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <div class="ikon-sosial">
+                    <a href="https://www.facebook.com/ith.parepare?mibextid=ZbWKwL"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/ith.campus?igsh=Z3JucWdsOGtrd3A4"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://youtube.com/@ith_idn?si=Ky5JKVlLYWLw4z-V"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://ith.ac.id/"><i class="fa-brands fa-google-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
